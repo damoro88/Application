@@ -4,4 +4,3 @@ matplotlib
 pickleshare==0.7.5
 numpy
 scikit-learn==1.2.2
-```
