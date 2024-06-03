@@ -25,7 +25,7 @@ from PIL import Image
 
 
 # Load the saved components:
-with open("export/dt_model.pkl", "rb") as f:
+with open("dt_model.pkl", "rb") as f:
     components = pickle.load(f)
 
 
