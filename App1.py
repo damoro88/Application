@@ -104,5 +104,63 @@ with col3:
 
 
 
+# In[20]:
+# Create a button to make a prediction
+if st.button("Predict"):
+    # Convert the input data to a pandas DataFrame
+    input_df = pd.DataFrame([input_data])
+
+    # categorizing the products
+    food_families = ['BEVERAGES', 'BREAD/BAKERY', 'FROZEN FOODS', 'MEATS', 'PREPARED FOODS', 'DELI','PRODUCE', 'DAIRY','POULTRY','EGGS','SEAFOOD']
+    home_families = ['HOME AND KITCHEN I', 'HOME AND KITCHEN II', 'HOME APPLIANCES']
+    clothing_families = ['LINGERIE', 'LADYSWARE']
+    grocery_families = ['GROCERY I', 'GROCERY II']
+    stationery_families = ['BOOKS', 'MAGAZINES','SCHOOL AND OFFICE SUPPLIES']
+    cleaning_families = ['HOME CARE', 'BABY CARE','PERSONAL CARE']
+    hardware_families = ['PLAYERS AND ELECTRONICS','HARDWARE']
+    others_families = ['AUTOMOTIVE', 'BEAUTY','CELEBRATION', 'LADIESWEAR', 'LAWN AND GARDEN', 'LIQUOR,WINE,BEER',  'PET SUPPLIES']
+
+
+ 
+
+    # Apply the same preprocessing steps as done during training
+    input_df['products'] = np.where(input_df['products'].isin(food_families), 'FOODS', input_df['products'])
+    input_df['products'] = np.where(input_df['products'].isin(home_families), 'HOME', input_df['products'])
+    input_df['products'] = np.where(input_df['products'].isin(clothing_families), 'CLOTHING', input_df['products'])
+    input_df['products'] = np.where(input_df['products'].isin(grocery_families), 'GROCERY', input_df['products'])
+    input_df['products'] = np.where(input_df['products'].isin(stationery_families), 'STATIONERY', input_df['products'])
+    input_df['products'] = np.where(input_df['products'].isin(cleaning_families), 'CLEANING', input_df['products'])
+    input_df['products'] = np.where(input_df['products'].isin(hardware_families), 'HARDWARE', input_df['products'])
+    input_df['products'] = np.where(input_df['products'].isin(others_families), 'OTHERS', input_df['products'])
+
+
+    categorical_columns = ['products', 'end_month', 'store_type', 'state']
+    numerical_columns =['store_nbr','onpromotion','cluster','dcoilwtico','year','month','day','dayofweek']
+    # Impute missing values
+    input_df_cat = input_df[categorical_columns].copy()
+    input_df_num = input_df[numerical_columns].copy()
+    input_df_cat_imputed = cat_imputer.transform(input_df_cat)
+    input_df_num_imputed = num_imputer.transform(input_df_num)
+
+    # Encode categorical features
+    input_df_cat_encoded = pd.DataFrame(encoder.transform(input_df_cat_imputed).toarray(),
+                                        columns=encoder.get_feature_names_out(categorical_columns))
+
+    # Scale numerical features
+    input_df_num_scaled = scaler.transform(input_df_num_imputed)
+    input_df_num_sc = pd.DataFrame(input_df_num_scaled, columns=numerical_columns)
+
+    # Combine encoded categorical features and scaled numerical features
+    input_df_processed = pd.concat([input_df_num_sc, input_df_cat_encoded], axis=1)
+
+    # Make predictions using the trained model
+    predictions = dt_model.predict(input_df_processed)
+
+    # Display the predicted sales value to the user:
+    st.write("Predicted Sales:", predictions[0])
+
+
+
+
 
 
