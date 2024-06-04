@@ -54,7 +54,7 @@ st.set_page_config(
 
 
 # Add an image or logo to the app
-image = Image.open(r'export/copofav.jpg')
+image = Image.open('copofav.jpg')
 
 
 # In[16]:
