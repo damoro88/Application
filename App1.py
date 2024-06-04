@@ -78,7 +78,30 @@ st.title("SALES PREDICTION APP")
 st.write("Please ENTER the relevant data and CLICK Predict.")
 
 
-# In[ ]:
+# In[19]:
+# Create the input fields
+input_data = {}
+col1,col2,col3 = st.columns(3)
+with col1:
+    input_data['store_nbr'] = st.slider("Store Number",0,54)
+    input_data['products'] = st.selectbox("Products Family", ['OTHERS', 'CLEANING', 'FOODS', 'STATIONERY', 'GROCERY', 'HARDWARE',
+       'HOME', 'CLOTHING'])
+    input_data['onpromotion'] =st.number_input("Discount Amt On Promotion",step=1)
+    input_data['state'] = st.selectbox("State", ['Pichincha', 'Cotopaxi', 'Chimborazo', 'Imbabura',
+       'Santo Domingo de los Tsachilas', 'Bolivar', 'Pastaza',
+       'Tungurahua', 'Guayas', 'Santa Elena', 'Los Rios', 'Azuay', 'Loja',
+       'El Oro', 'Esmeraldas', 'Manabi'])
+with col2:    
+    input_data['store_type'] = st.selectbox("Store Type",['D', 'C', 'B', 'E', 'A'])
+    input_data['cluster'] = st.number_input("Cluster",step=1)
+    input_data['dcoilwtico'] = st.number_input("DCOILWTICO",step=1)
+    input_data['year'] = st.number_input("Year to Predict",step=1)
+with col3:    
+    input_data['month'] = st.slider("Month",1,12)
+    input_data['day'] = st.slider("Day",1,31)
+    input_data['dayofweek'] = st.number_input("Day of Week,0=Sunday and 6=Satruday",step=1)
+    input_data['end_month'] = st.selectbox("Is it End of the Month?",['True','False'])
+
 
 
 
